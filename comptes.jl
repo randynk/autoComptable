@@ -3,7 +3,6 @@ function first()
     touch("ofoe4534opzaeu12/asxfthnjil")
     touch("ofoe4534opzaeu12/plknbgresw")
 end
-
 function asking()
     println("Qui d'autre a contribué ?")
     nom_temporaire = uppercase(readline())
@@ -16,7 +15,6 @@ function asking()
     close(noms_temporaires)
     close(montants_temporaires)
 end
-
 function datas()
     noms = open("noms_temporaires.txt","r")
     montants = open("montants_temporaires.txt","r")
@@ -26,7 +24,6 @@ function datas()
     close(montants)
     global data = Dict("nom" => nom, "montant" => montant)
 end
-
 function search(fichier::String)
       bilan_noms = open(fichier,"r")
       bilan_nom = readlines(bilan_noms)
@@ -39,7 +36,6 @@ function search(fichier::String)
         end
     end
 end
-
 function update(index)
     names = open("ofoe4534opzaeu12/plknbgresw","r")
     amounts = open("ofoe4534opzaeu12/asxfthnjil","r")
@@ -47,7 +43,6 @@ function update(index)
     amount = readlines(amounts)
     close(names)
     close(amounts)
-
     if typeof(index) == Nothing
         noms = open("ofoe4534opzaeu12/plknbgresw","a")
         montants = open("ofoe4534opzaeu12/asxfthnjil","a")
@@ -73,7 +68,6 @@ function update(index)
     rm("noms_temporaires.txt")
     rm("montants_temporaires.txt")
 end
-
 function solde()
     touch("ofoe4534opzaeu12/mlbshye")
     try
@@ -97,15 +91,12 @@ try
     rm("ofoe4534opzaeu12/tdwqazedc") 
 catch
 end
-
 function classify()
     nouveau_Solde = open("ofoe4534opzaeu12/mlbshye","r")
     nouveauSolde = readline(nouveau_Solde)
     close(nouveau_Solde)
-
     montant = Float64[]
     nom = []
-    
     montants = open("ofoe4534opzaeu12/ygvdzqwxd","r")
     for i in eachline(montants)
         push!(montant, parse(Float64, i))
@@ -114,9 +105,7 @@ function classify()
     for i in eachline(noms)
         push!(nom, i)
     end 
-println(montant)
     montant = map(x -> x * 100 / (parse(Float64, nouveauSolde)), montant)
-println(montant)
     percents = open("soldes.txt","w")
     begin
         percent = ""
@@ -130,7 +119,6 @@ println(montant)
     write(percents, "\n::\n::\n\n Solde : $(BigFloat(nouveauSolde))")
     close(percents)
 end
-
 first()
 asking()
 datas()

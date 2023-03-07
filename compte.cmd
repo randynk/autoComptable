@@ -1,8 +1,9 @@
 @echo off
-if exist soldes.txt (
+if exist ofoe4534opzaeu12\mlbshye (
     julia comptes.jl
 ) else (
     md ofoe4534opzaeu12
     julia comptes.jl
 )
-pause
+echo tapez une touche pour quitter
+pause > nul

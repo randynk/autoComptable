@@ -2,6 +2,11 @@ function first()
     touch("ofoe4534opzaeu12/mlbshye")
     touch("ofoe4534opzaeu12/asxfthnjil")
     touch("ofoe4534opzaeu12/plknbgresw")
+    try
+        rm("ofoe4534opzaeu12/ygvdzqwxd")
+        rm("ofoe4534opzaeu12/tdwqazedc") 
+    catch
+    end    
 end
 function asking()
     println("Qui d'autre a contribué ?")
@@ -28,7 +33,6 @@ function search(fichier::String)
       bilan_noms = open(fichier,"r")
       bilan_nom = readlines(bilan_noms)
       close(bilan_noms)
-
     for j in eachindex(bilan_nom)
         if getindex(bilan_nom, j) == data["nom"]
             return j
@@ -50,12 +54,10 @@ function update(index)
         write(montants, "$(data["montant"])\n")
         close(noms)
         close(montants)
-        sleep(1)
     else
         updated = parse(Float64, amount[index]) + parse(Float64, data["montant"])
         updated = string(updated, "")
         amount = setindex!(amount, updated, index)
-        sleep(1)
         news = open("montants.txt","a")
         for j in amount
             write(news, "$j\n")
@@ -69,6 +71,8 @@ function update(index)
     rm("montants_temporaires.txt")
 end
 function solde()
+    cp("ofoe4534opzaeu12/asxfthnjil","ofoe4534opzaeu12/ygvdzqwxd")
+    cp("ofoe4534opzaeu12/plknbgresw","ofoe4534opzaeu12/tdwqazedc")
     touch("ofoe4534opzaeu12/mlbshye")
     try
         lireLeSolde = open("ofoe4534opzaeu12/mlbshye","r")
@@ -86,17 +90,12 @@ function solde()
     write(ecrireLeSolde, string(nouveauSolde))
     close(ecrireLeSolde)
 end
-try
-    rm("ofoe4534opzaeu12/ygvdzqwxd")
-    rm("ofoe4534opzaeu12/tdwqazedc") 
-catch
-end
 function classify()
     nouveau_Solde = open("ofoe4534opzaeu12/mlbshye","r")
     nouveauSolde = readline(nouveau_Solde)
     close(nouveau_Solde)
     montant = Float64[]
-    nom = []
+    nom = []    
     montants = open("ofoe4534opzaeu12/ygvdzqwxd","r")
     for i in eachline(montants)
         push!(montant, parse(Float64, i))
@@ -116,14 +115,45 @@ function classify()
         end
     end
     write(percents, percent)
-    write(percents, "\n::\n::\n\n Solde : $(BigFloat(nouveauSolde))")
+    write(percents, "\n    ::\n    ::\n\n Solde : $(BigFloat(nouveauSolde))")
     close(percents)
+    println("\n   La contribution de $(data["montant"]) fcfa de $(data["nom"]) a bien été enregistée !\n\n      Nouveau solde : $nouveauSolde fcfa")
 end
-first()
-asking()
-datas()
-update(search("ofoe4534opzaeu12/plknbgresw"))
-cp("ofoe4534opzaeu12/asxfthnjil","ofoe4534opzaeu12/ygvdzqwxd")
-cp("ofoe4534opzaeu12/plknbgresw","ofoe4534opzaeu12/tdwqazedc")
-solde()
-classify()
+function remove()
+    println("Tu vas retirer combien ?")
+    retrait = parse(Float64, readline())
+    leSolde = open("ofoe4534opzaeu12/mlbshye","r")
+    sold = parse(Float64, readline(leSolde))
+    close(leSolde)
+    sold -= retrait
+    leSolde = open("ofoe4534opzaeu12/mlbshye","w")
+    write(leSolde, "$sold")
+    close(leSolde) 
+    leSolde = open("soldes.txt","r")
+    lesSoldes = readlines(leSolde)
+    close(leSolde)
+    lesSoldes = setindex!(lesSoldes, string("Solde : ", sold), lastindex(lesSoldes))
+    rm("soldes.txt")
+    leSolde = open("soldes.txt","a")
+    for i in lesSoldes
+        write(leSolde, "\n$i")
+    end
+    close(leSolde)
+    println("Retrait de $retrait fcfa effectué avec succès !\n\n     Nouveau solde : $sold fcfa")
+end
+println("\nQuelle transaction allez-vous effectuer ? \n   Tapez 0 pour quitter\n   Tapez 1 pour notifier une nouvelle contribution\n   Tapez 2 pour notifier un retrait\n")
+choix = parse(Int64, readline())
+if choix == 1
+    first()
+    asking()
+    datas()
+    update(search("ofoe4534opzaeu12/plknbgresw"))
+    solde()
+    classify()
+elseif choix == 2
+    remove()
+elseif choix == 0
+    exit()
+else
+    println("       Cette entrée ne correspond à aucune modification.")
+end

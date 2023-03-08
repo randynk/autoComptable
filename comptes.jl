@@ -1,3 +1,17 @@
+function chat(message::String, temps::Float64)
+    texte = open("file","w")
+    write(texte, message)
+    write(texte, "\n")
+    close(texte)
+    texte = open("file","r")
+    while !eof(texte)
+        lettre = read(texte, Char)
+        print(lettre)
+        sleep(temps)
+    end
+    close(texte)
+    rm("file")
+end
 function first()
     touch("ofoe4534opzaeu12/mlbshye")
     touch("ofoe4534opzaeu12/asxfthnjil")
@@ -9,9 +23,9 @@ function first()
     end    
 end
 function asking()
-    println("Qui d'autre a contribué ?")
+    chat("Qui d'autre a contribué ?", 0.012)
     nom_temporaire = uppercase(readline())
-    println("Il/Elle a contribué à raison de combien ? (N'ajoute plus 'fcfa' stp)")
+    chat("Il/Elle a contribué à raison de combien ? (N'ajoute plus 'fcfa' stp)", 0.012)
     montant_temporaire = readline()  
     noms_temporaires = open("noms_temporaires.txt","w")
     montants_temporaires = open("montants_temporaires.txt","w")
@@ -115,12 +129,12 @@ function classify()
         end
     end
     write(percents, percent)
-    write(percents, "\n    ::\n    ::\n\n Solde : $(BigFloat(nouveauSolde))")
+    write(percents, "\n    ::\n    ::\n\n Solde : $(nouveauSolde)")
     close(percents)
-    println("\n   La contribution de $(data["montant"]) fcfa de $(data["nom"]) a bien été enregistée !\n\n      Nouveau solde : $nouveauSolde fcfa")
+    chat("\n   La contribution de $(data["montant"]) fcfa de $(data["nom"]) a bien été enregistée !\n\n      Nouveau solde : $nouveauSolde fcfa", 0.012)
 end
 function remove()
-    println("Tu vas retirer combien ?")
+    chat("Tu vas retirer combien ?", 0.012)
     retrait = parse(Float64, readline())
     leSolde = open("ofoe4534opzaeu12/mlbshye","r")
     sold = parse(Float64, readline(leSolde))
@@ -139,9 +153,9 @@ function remove()
         write(leSolde, "\n$i")
     end
     close(leSolde)
-    println("Retrait de $retrait fcfa effectué avec succès !\n\n     Nouveau solde : $sold fcfa")
+    chat("Retrait de $retrait fcfa effectué avec succès !\n\n     Nouveau solde : $sold fcfa", 0.012)
 end
-println("\nQuelle transaction allez-vous effectuer ? \n   Tapez 0 pour quitter\n   Tapez 1 pour notifier une nouvelle contribution\n   Tapez 2 pour notifier un retrait\n")
+chat("\nQuelle transaction allez-vous effectuer ? \n   Tapez 0 pour quitter\n   Tapez 1 pour notifier une nouvelle contribution\n   Tapez 2 pour notifier un retrait\n", 0.012)
 choix = parse(Int64, readline())
 if choix == 1
     first()
@@ -155,5 +169,5 @@ elseif choix == 2
 elseif choix == 0
     exit()
 else
-    println("       Cette entrée ne correspond à aucune modification.")
+    chat("       Cette entrée ne correspond à aucune modification.", 0.012)
 end
